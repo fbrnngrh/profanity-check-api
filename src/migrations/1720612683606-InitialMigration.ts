@@ -18,11 +18,17 @@ export class InitialMigration1720612683606 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        // Hapus semua foreign key terlebih dahulu
         await queryRunner.query(`ALTER TABLE \`custom_profanity_word\` DROP FOREIGN KEY \`FK_21a47e552d9be062f8990784cd4\``);
         await queryRunner.query(`ALTER TABLE \`custom_profanity_word\` DROP FOREIGN KEY \`FK_32cc77cd7be1334d6aca66b0092\``);
         await queryRunner.query(`ALTER TABLE \`profanity_word\` DROP FOREIGN KEY \`FK_b24765d4b0658cec0339bc3e186\``);
         await queryRunner.query(`ALTER TABLE \`check_log\` DROP FOREIGN KEY \`FK_af97a5cfefe21289a037a3e9d3b\``);
         await queryRunner.query(`ALTER TABLE \`word_variation\` DROP FOREIGN KEY \`FK_09eb4f46110a8f586a1e15a5182\``);
+
+        // Hapus indeks yang mungkin dibuat secara implisit
+        await queryRunner.query(`DROP INDEX \`idx_check_logs_userId_createdAt\` ON \`check_log\``);
+
+        // Lanjutkan dengan penghapusan tabel dan indeks lainnya
         await queryRunner.query(`DROP TABLE \`custom_profanity_word\``);
         await queryRunner.query(`DROP INDEX \`IDX_1168f339abe093cd1d94455e5a\` ON \`profanity_word\``);
         await queryRunner.query(`DROP TABLE \`profanity_word\``);
