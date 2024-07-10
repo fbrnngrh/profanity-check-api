@@ -2,6 +2,11 @@
 
 ## TODO
 
+### Seeder
+
+- [x] Buat seeder untuk mengisi database dengan data dari training_data.csv
+- [x] import data dari training_data.csv ke database
+
 ### Controllers
 
 - [ ] Buat controller untuk setiap endpoint API:
@@ -37,6 +42,7 @@
   - [ ] `src/repositories/checkLogRepository.ts`
   - [ ] `src/repositories/customProfanityWordRepository.ts`
   - [ ] `src/repositories/wordVariationRepository.ts`
+
 
 ### Middleware
 

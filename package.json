@@ -23,12 +23,15 @@
     "format": "prettier --write 'src/**/*.ts'",
     "typeorm": "NODE_OPTIONS='--loader ts-node/esm' ts-node ./node_modules/typeorm/cli.js",
     "migration:generate": "bun run typeorm migration:generate -d src/config/database.ts",
-    "migration:run": "bun typeorm migration:run -d src/config/database.ts"
+    "migration:run": "bun typeorm migration:run -d src/config/database.ts",
+    "seed:profanity": "bun run src/seeders/profanitySeeder.ts",
+    "db:drop": "bun run typeorm schema:drop -d src/config/database.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "csv-parse": "^5.5.6",
     "hono": "^4.4.12",
     "mysql2": "^3.10.2",
     "reflect-metadata": "^0.2.2",
