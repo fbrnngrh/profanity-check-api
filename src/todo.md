@@ -27,11 +27,16 @@
   - [ ] `src/services/profanityListService.ts`
     - [ ] Implementasi fungsi untuk mengambil daftar kata kasar berdasarkan filter level
 
-### Models
 
-- [ ] Buat model untuk interaksi dengan database:
-  - [ ] `src/models/profanityModel.ts`
-  - [ ] `src/models/userModel.ts` (jika diperlukan)
+### Repositories
+
+- [ ] Buat repository untuk setiap entitas:
+  - [ ] `src/repositories/profanityRepository.ts`
+  - [ ] `src/repositories/userRepository.ts`
+  - [ ] `src/repositories/categoryRepository.ts`
+  - [ ] `src/repositories/checkLogRepository.ts`
+  - [ ] `src/repositories/customProfanityWordRepository.ts`
+  - [ ] `src/repositories/wordVariationRepository.ts`
 
 ### Middleware
 
