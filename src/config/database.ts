@@ -1,32 +1,19 @@
-import mysql from 'mysql2/promise'
-import env from './env'
+import { DataSource } from "typeorm";
+import {config} from "dotenv";
 
-let pool: mysql.Pool;
+config();
 
-try {
-  pool = mysql.createPool({
-    host: env.DB_HOST,
-    user: env.DB_USER,
-    password: env.DB_PASSWORD,
-    database: env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit:10,
-    queueLimit: 0
-  });
-} catch (error) {
-  console.error('Database connection failed:', error);
-  process.exit(1);
-}
+const AppDataSource = new DataSource({
+  type: "mysql",
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT || "3306"),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  synchronize: process.env.NODE_ENV !== 'production',
+  logging: process.env.NODE_ENV !== 'production',
+  entities: ["src/entities/**/*.ts"],
+  migrations: ["src/migrations/**/*.ts"],
+})
 
-export async function validateConnection() {
-  try {
-    const connection = await pool.getConnection();
-    connection.release();
-    console.log('Database connection successful');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-    process.exit(1);
-  }
-}
-
-export default pool;
+export default AppDataSource;
