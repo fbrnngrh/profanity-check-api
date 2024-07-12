@@ -2,14 +2,22 @@ import "reflect-metadata"
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
 import { prettyJSON } from 'hono/pretty-json'
-import { AppDataSource } from './config/database'
+import AppDataSource from './config/database'
+import router from './routes'
+import { authMiddleware } from './middleware/authMiddleware'
+import { rateLimitMiddleware } from './middleware/rateLimitMiddleware'
+import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware'
 
 const app = new Hono()
 
 app.use('*', logger())
 app.use('*', prettyJSON())
+// app.use('*', authMiddleware)
+app.use('*', rateLimitMiddleware)
+app.use('*', errorHandlerMiddleware)
 
-app.get('/', (c) => c.text('Hello Hono!'))
+app.get('/', (c) => c.text('This is profanity checker API'));
+app.route('/api', router)
 
 const start = async () => {
   try {
@@ -23,6 +31,6 @@ const start = async () => {
 start()
 
 export default {
-  port: 3000,
+  port: process.env.API_PORT,
   fetch: app.fetch,
 }

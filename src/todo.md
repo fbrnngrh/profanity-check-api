@@ -9,35 +9,35 @@
 
 ### Controllers
 
-- [ ] Buat controller untuk setiap endpoint API:
-  - [ ] `src/controllers/checkController.ts`
-    - [ ] Implementasi endpoint POST `/check`
-    - [ ] Validasi input (text dan filter_level)
-    - [ ] Integrasi dengan service untuk pengecekan profanity
-    - [ ] Format respons sesuai spesifikasi API
-  - [ ] `src/controllers/profanityListController.ts`
-    - [ ] Implementasi endpoint GET `/profanity-list`
-    - [ ] Validasi query parameter (filter_level)
-    - [ ] Integrasi dengan service untuk mengambil daftar kata kasar
-  - [ ] `src/controllers/userController.ts`
-    - [ ] Implementasi manajemen pengguna (jika diperlukan)
+- [x] Buat controller untuk setiap endpoint API:
+  - [x] `src/controllers/checkController.ts`
+    - [x] Implementasi endpoint POST `/check`
+    - [x] Validasi input (text dan filter_level)
+    - [x] Integrasi dengan service untuk pengecekan profanity
+    - [x] Format respons sesuai spesifikasi API
+  - [x] `src/controllers/profanityListController.ts`
+    - [x] Implementasi endpoint GET `/profanity-list`
+    - [x] Validasi query parameter (filter_level)
+    - [x] Integrasi dengan service untuk mengambil daftar kata kasar
+  - [x] `src/controllers/userController.ts`
+    - [x] Implementasi manajemen pengguna (jika diperlukan)
 
 ### Services
 
-- [ ] Buat service untuk logika bisnis:
-  - [ ] `src/services/profanityCheckService.ts`
-    - [ ] Implementasi fungsi untuk memeriksa teks
-    - [ ] Implementasi fungsi untuk menyensor kata-kata kasar
-    - [ ] Implementasi fungsi untuk menghitung jumlah kata kasar
-  - [ ] `src/services/profanityListService.ts`
-    - [ ] Implementasi fungsi untuk mengambil daftar kata kasar berdasarkan filter level
+- [x] Buat service untuk logika bisnis:
+  - [x] `src/services/profanityCheckService.ts`
+    - [x] Implementasi fungsi untuk memeriksa teks
+    - [x] Implementasi fungsi untuk menyensor kata-kata kasar
+    - [x] Implementasi fungsi untuk menghitung jumlah kata kasar
+  - [x] `src/services/profanityListService.ts`
+    - [x] Implementasi fungsi untuk mengambil daftar kata kasar berdasarkan filter level
 
 
 ### Repositories
 
-- [ ] Buat repository untuk setiap entitas:
-  - [ ] `src/repositories/profanityRepository.ts`
-  - [ ] `src/repositories/userRepository.ts`
+- [x] Buat repository untuk setiap entitas:
+  - [x] `src/repositories/profanityRepository.ts`
+  - [x] `src/repositories/userRepository.ts`
   - [ ] `src/repositories/categoryRepository.ts`
   - [ ] `src/repositories/checkLogRepository.ts`
   - [ ] `src/repositories/customProfanityWordRepository.ts`
