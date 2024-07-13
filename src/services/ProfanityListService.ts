@@ -20,21 +20,22 @@ export class ProfanityListService {
    * @returns Promise yang menghasilkan array ProfanityWord.
    * @throws Error jika terjadi kesalahan saat mengambil data.
    */
-  async getProfanityList(filterLevel: FilterLevel): Promise<ProfanityWord[]> {
-    const cacheKey = `profanity_list_${filterLevel}`;
-    let profanityWords = this.cache.get<ProfanityWord[]>(cacheKey);
-
-    if (!profanityWords) {
+  async getProfanityList(filterLevel: FilterLevel, page: number, limit: number): Promise<{ profanityWords: ProfanityWord[], total: number }> {
+    const cacheKey = `profanity_list_${filterLevel}_${page}_${limit}`;
+    let cachedResult = this.cache.get<{ profanityWords: ProfanityWord[], total: number }>(cacheKey);
+  
+    if (!cachedResult) {
       try {
-        profanityWords = await this.profanityRepository.findAllByFilterLevel(filterLevel);
-        this.cache.set(cacheKey, profanityWords);
+        const [profanityWords, total] = await this.profanityRepository.findAllByFilterLevel(filterLevel, page, limit);
+        cachedResult = { profanityWords, total };
+        this.cache.set(cacheKey, cachedResult);
       } catch (error) {
         console.error(`Error fetching profanity list: ${error}`);
         throw new Error("Gagal mengambil daftar kata profanitas");
       }
     }
-
-    return profanityWords;
+  
+    return cachedResult;
   }
 
   /**

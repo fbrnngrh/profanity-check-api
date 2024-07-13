@@ -21,12 +21,15 @@ export class ProfanityRepository {
      * @param filterLevel Tingkat filter yang diinginkan
      * @returns Array dari ProfanityWord yang sesuai dengan tingkat filter
      */
-    async findAllByFilterLevel(filterLevel: string): Promise<ProfanityWord[]> {
-        return this.repository.find({
-          where: { category: { name: filterLevel }, isActive: true },
-          relations: ["category"],
-          order: { word: "ASC" }
-        });
+    async findAllByFilterLevel(filterLevel: string, page: number, limit: number): Promise<[ProfanityWord[], number]> {
+      const [profanityWords, total] = await this.repository.findAndCount({
+        where: { category: { name: filterLevel }, isActive: true },
+        relations: ["category"],
+        order: { word: "ASC" },
+        skip: (page - 1) * limit,
+        take: limit
+      });
+      return [profanityWords, total];
     }
 
     /**
