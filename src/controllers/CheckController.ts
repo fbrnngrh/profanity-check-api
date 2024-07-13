@@ -69,24 +69,39 @@ export class CheckController {
         } catch (error) {
             const endTime = Date.now();
             if (error instanceof z.ZodError) {
+                const errorDetails = error.errors.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message
+                }));
                 logger.warn('Kesalahan validasi input', {
                     executionTime: endTime - startTime,
-                    error: error.errors
+                    errors: errorDetails
                 });
                 return c.json({ 
                     status: 'error',
-                    message: "Input tidak valid",
-                    errors: error.errors
+                    message: "Validasi input gagal",
+                    errors: errorDetails
                 }, 400);
+            } else if (error instanceof Error) {
+                logger.error('Kesalahan internal server', {
+                    executionTime: endTime - startTime,
+                    error: error.message
+                });
+                return c.json({ 
+                    status: 'error',
+                    message: "Terjadi kesalahan internal server",
+                    error: error.message
+                }, 500);
+            } else {
+                logger.error('Kesalahan tidak dikenal', {
+                    executionTime: endTime - startTime,
+                    error: 'Unknown error'
+                });
+                return c.json({ 
+                    status: 'error',
+                    message: "Terjadi kesalahan yang tidak diketahui"
+                }, 500);
             }
-            logger.error('Kesalahan internal server', {
-                executionTime: endTime - startTime,
-                error: error instanceof Error ? error.message : 'Unknown error'
-            });
-            return c.json({ 
-                status: 'error',
-                message: "Terjadi kesalahan internal server"
-            }, 500);
         }
     }
   }
