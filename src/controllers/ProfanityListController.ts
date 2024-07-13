@@ -39,30 +39,26 @@ export class ProfanityListController {
       logger.info('Mengambil daftar kata-kata profanitas');
       const query = c.req.query();
       const { filter_level, page, limit } = querySchema.parse(query);
-
-      const profanityList = await this.profanityListService.getProfanityList(filter_level);
-      const totalItems = profanityList.length;
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + limit;
-      const paginatedList = profanityList.slice(startIndex, endIndex);
-
+  
+      const { profanityWords, total } = await this.profanityListService.getProfanityList(filter_level, page, limit);
+  
       const categories = await this.profanityListService.getCategories();
       const stats = await this.profanityListService.getProfanityStats();
-
-      logger.info('Daftar kata-kata profanitas berhasil diambil', { totalItems, page, limit });
+  
+      logger.info('Daftar kata-kata profanitas berhasil diambil', { total, page, limit });
       return c.json({
         status: "success",
         message: "Daftar kata-kata profanitas",
         data: {
-          profanity_words: paginatedList.map(pw => ({
+          profanity_words: profanityWords.map(pw => ({
             id: pw.id,
             word: pw.word,
             category: pw.category.name,
             isActive: pw.isActive
           })),
           pagination: {
-            total_items: totalItems,
-            total_pages: Math.ceil(totalItems / limit),
+            total_items: total,
+            total_pages: Math.ceil(total / limit),
             current_page: page,
             items_per_page: limit
           },
