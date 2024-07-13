@@ -7,11 +7,22 @@ import router from './routes'
 import { authMiddleware } from './middleware/authMiddleware'
 import { rateLimitMiddleware } from './middleware/rateLimitMiddleware'
 import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
 
 app.use('*', logger())
 app.use('*', prettyJSON())
+app.use('*', cors(
+  {
+    origin: 'http://localhost:3000',
+    allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
+    allowMethods: ['POST', 'GET', 'OPTIONS'],
+    exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
+    maxAge: 600,
+    credentials: true,
+  }
+))
 // app.use('*', authMiddleware)
 app.use('*', rateLimitMiddleware)
 app.use('*', errorHandlerMiddleware)
