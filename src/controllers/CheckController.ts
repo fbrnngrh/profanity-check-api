@@ -56,6 +56,7 @@ export class CheckController {
 
             return c.json({
                 status: 'success',
+                message: "Pemeriksaan profanitas selesai",
                 data: {
                     contains_profanity: result.contains_profanity,
                     profanity_count: result.profanity_count,
