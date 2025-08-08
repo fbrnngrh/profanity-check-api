@@ -97,7 +97,12 @@ export class ProfanityCheckService {
             '\\': 'l', '|': 'i'
         };
 
-        return text.toLowerCase().split('').map(char => replacements[char] || char).join('');
+        return text
+            .toLowerCase()
+            .split('')
+            .map(char => replacements[char] || char)
+            .join('')
+            .replace(/[^a-z]/g, '');
     }
 
     private isProfanity(word: string, profanityMap: Map<string, string>): boolean {
@@ -119,7 +124,10 @@ export class ProfanityCheckService {
             return allowedSet.has(word) || Array.from(allowedSet).some(allowed => word.includes(allowed));
         };
 
-        return checkWord(prevWord, allowedPreviousWords) || checkWord(nextWord, allowedNextWords);
+        const normalizedPrev = this.normalizeText(prevWord);
+        const normalizedNext = this.normalizeText(nextWord);
+
+        return checkWord(normalizedPrev, allowedPreviousWords) || checkWord(normalizedNext, allowedNextWords);
     }
     private getProfanitySeverity(category: string): number {
       const severityMap: Record<string, number> = {
